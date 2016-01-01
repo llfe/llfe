@@ -5,7 +5,7 @@
   {applications, [kernel, stdlib]},
   {env,
    [{'source-uri',
-     "https://github.com/quasiquoting/llfe/blob/master/{filepath}#L{line}"}]}
+     "https://github.com/quasiquoting/llfe/blob/master/{filepath}#L{line}"}]},
   {modules,      [llfe]},
 
   {contributors, ["Eric Bailey"]},
