@@ -1,0 +1,9 @@
+## -*- conf -*-
+.eunit/
+.rebar/
+.DS_Store
+_*
+*.beam
+ebin
+erl_crash.dump
+rebar.lock

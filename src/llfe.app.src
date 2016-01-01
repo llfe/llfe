@@ -1,0 +1,14 @@
+{application,    llfe,
+ [{description,  "Literate programming support for LFE."},
+  {vsn,          "0.0.1"},
+  {registered,   []},
+  {applications, [kernel, stdlib]},
+  {env,
+   [{'source-uri',
+     "https://github.com/quasiquoting/llfe/blob/master/{filepath}#L{line}"}]}
+  {modules,      [llfe]},
+
+  {contributors, ["Eric Bailey"]},
+  {licenses,     ["MIT"]},
+  {links,        [{"Github", "https://github.com/quasiquoting/llfe"}]}
+ ]}.
