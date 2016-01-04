@@ -280,16 +280,16 @@
   "Return `true` iff `x` is one of \"help\", \"-h\", \"-help\" or \"\"--help\"."
   (lists:member x '["help" "-h" "-help" "--help"]))
 
+(defun not-newline?
+  "Given a character, return `true` iff it iss not `\\n`."
+  ([10] 'false)
+  ([_]  'true))
+
 (defun file-name (base-dir filename)
   "Given a `base-dir`ectory and a `filename`, return an absolute path.
 The result will be formatted in a way that is accepted by the command shell and
 native applications on the current platform."
   (filename:nativename (filename:absname_join base-dir filename)))
-
-(defun not-newline?
-  "Given a character, return `true` iff it iss not `\\n`."
-  ([10] 'false)
-  ([_]  'true))
 
 (defun match-name (input)
   (re:run input "name=\"(?<name>[^\"]+)\"" '[#(capture [name] list)]))

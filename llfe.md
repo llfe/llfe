@@ -272,24 +272,38 @@ Next, include some libs.
 ```
 
 ### Internal Functions
+
+Predicates.
 ```{.lfe name="internal functions"}
 (defun help? (x)
   "Return `true` iff `x` is one of \"help\", \"-h\", \"-help\" or \"\"--help\"."
   (lists:member x '["help" "-h" "-help" "--help"]))
+
+(defun not-newline?
+  "Given a character, return `true` iff it iss not `\\n`."
+  ([10] 'false)
+  ([_]  'true))
+```
+
+Resolving absolute paths.
+```{.lfe name="internal functions"}
 
 (defun file-name (base-dir filename)
   "Given a `base-dir`ectory and a `filename`, return an absolute path.
 The result will be formatted in a way that is accepted by the command shell and
 native applications on the current platform."
   (filename:nativename (filename:absname_join base-dir filename)))
+```
 
-(defun not-newline?
-  "Given a character, return `true` iff it iss not `\\n`."
-  ([10] 'false)
-  ([_]  'true))
+Parsing header options.
+```{.lfe name="internal functions"}
 
 (defun match-name (input)
   (re:run input "name=\"(?<name>[^\"]+)\"" '[#(capture [name] list)]))
+```
+
+Haskell-inspired string manipulation.
+```{.lfe name="internal functions"}
 
 (defun lines (string)
   "Break a string up into a list of strings at newline characters.
@@ -300,6 +314,10 @@ The resulting strings do not contain newlines."
   "Joins lines, after appending a terminating newline to each.
 [[unlines/1]] is an inverse operation to [[lines/1]]."
   (string:join strings "\n"))
+```
+
+Unescaping `<<`.
+```{.lfe name="internal functions"}
 
 (defun unescape (code)
   "Given the contents of a code block, replace any `\"\\<<\"` with `\"\<<\"`."
