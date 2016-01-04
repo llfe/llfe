@@ -1,4 +1,4 @@
-# Literate LFE
+# LLFE
 [Literate programming] support for [LFE], inspired by [@mqsoh]'s [knot].
 
 [Literate programming]: https://en.wikipedia.org/wiki/Literate_programming
