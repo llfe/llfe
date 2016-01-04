@@ -1,10 +1,27 @@
+# LLFE
+[Literate programming] support for [LFE], inspired by [@mqsoh]'s [knot].
+
+[Literate programming]: https://en.wikipedia.org/wiki/Literate_programming
+[LFE]: https://github.com/rvirding/lfe
+[@mqsoh]: https://github.com/mqsoh
+[knot]: https://github.com/mqsoh/knot
+
+## Script
+First, the shebang.
+```{.lfe name="shebang"}
 #!/usr/bin/env lfe
 ;; -*- lfe -*-
+```
 
+Next, include some libs.
+```{.lfe name="include libs"}
 (include-lib "kernel/include/file.hrl")
 
 (include-lib "clj/include/compose.lfe")
+```
 
+### Usage
+```{.lfe name="usage"}
 (defun usage ()
   (io:fwrite "LLFE: Literate Lisp Flavoured Erlang\n")
   (io:fwrite "\n")
@@ -31,12 +48,10 @@
   (io:fwrite "For more information, it's probably best to read the literate\n")
   (io:fwrite "source of LLFE itself.\n")
   'ok)
+```
 
-
-;;;===================================================================
-;;; Printing
-;;;===================================================================
-
+### Printing
+```{.lfe name="printing"}
 (defun print-code (filename)
   (print-sections (all-code (read-file filename))))
 
@@ -74,12 +89,10 @@
    (lambda (name-code)
      (io:fwrite "~s~n-----~n~s~n-----~n~n" (tuple_to_list name-code)))
    sections))
+```
 
-
-;;;===================================================================
-;;; Code blocks
-;;;===================================================================
-
+### Parsing Code Blocks
+```{.lfe name="code blocks"}
 (defun collect-to-eol (input)
   (case (lists:splitwith #'not-newline?/1 input)
     (`#(,line [10 . ,rest]) `#(,line ,rest))
@@ -103,12 +116,10 @@
           (`#(,code ,rest2)  (collect-to-fence rest1)))
      (all-code rest2 `[#(,name ,code) . ,acc])))
   ([`(,_ . ,rest)             acc] (all-code rest acc)))
+```
 
-
-;;;===================================================================
-;;; noweb-style replacement
-;;;===================================================================
-
+### `noweb`-style Replacement
+```{.lfe name="noweb-style replacement"}
 (defun collect-to-replacement-open (line)
   (collect-to-replacement-open line []))
 
@@ -116,7 +127,7 @@
   (["" acc]
    `#(,(lists:reverse acc) ""))
   ([`(#\\ #\< #\< . ,rest) acc]
-   (collect-to-replacement-open rest (++ "<<\\" acc)))
+   (collect-to-replacement-open rest (++ "\<<\\" acc)))
   ([`(#\< #\< . ,rest) acc]
    `#(,(lists:reverse acc) ,rest))
   ([`(,c . ,rest) acc]
@@ -129,12 +140,10 @@
   ([""                 acc] `#(,(lists:reverse acc) ""))
   ([`(#\> #\> . ,rest) acc] `#(,(lists:reverse acc) ,rest))
   ([`(,c . ,rest)      acc] (collect-to-replacement-close rest (cons c acc))))
+```
 
-
-;;;===================================================================
-;;; Sections
-;;;===================================================================
-
+### Sections
+```{.lfe name="sections"}
 (defun concat-sections (sections)
   (flet ((join-section (key)
                        `#(,key ,(unlines (proplists:get_all_values key sections)))))
@@ -172,12 +181,10 @@
       ([`#(,name ,code)]
        `#(,name ,(expand-sections code sections))))
     sections))
+```
 
-
-;;;===================================================================
-;;; Inspecting files
-;;;===================================================================
-
+### Inspecting Files
+```{.lfe name="inspecting files"}
 (defun changed-files (a b)
   (lists:filter
     (lambda (x) (=/= (proplists:get_value x a) (proplists:get_value x b)))
@@ -192,12 +199,10 @@
   "Given a filename, return the last time the file was written."
   (let ((`#(ok ,info) (file:read_file_info filename)))
     (file_info-mtime info)))
+```
 
-
-;;;===================================================================
-;;; Reading files
-;;;===================================================================
-
+### Reading Files
+```{.lfe name="reading files"}
 (defun read-file (filename)
   (case (file:read_file filename)
     (`#(ok ,binary) (binary_to_list binary))
@@ -212,12 +217,10 @@
        `#(true #(,name ,code)))
       ([_] 'false))
     sections))
+```
 
-
-;;;===================================================================
-;;; Processing files
-;;;===================================================================
-
+### Processing Files
+```{.lfe name="processing files"}
 (defun process-files (files)
   (lists:reverse (lists:flatmap #'process-file/1 files)))
 
@@ -231,12 +234,10 @@
                                 (expand-all-sections)))
          (files (file-sections (unescape-sections expanded-code))))
     (write-file-sections base-dir files)))
+```
 
-
-;;;===================================================================
-;;; Writing files
-;;;===================================================================
-
+### Writing Files
+```{.lfe name="writing files"}
 (defun write-file (base-dir filename contents)
   (let ((filename* (file-name base-dir filename)))
     (case (file:write_file filename* (++ contents "\n"))
@@ -254,12 +255,10 @@
          (write-file base-dir filename contents)))
       (lists:map files)
       (lists:reverse)))
+```
 
-
-;;;===================================================================
-;;; Watching files
-;;;===================================================================
-
+### Watching Files
+```{.lfe name="watching files"}
 (defun watch (files f) (watch files f []))
 
 (defun watch (files f state)
@@ -270,12 +269,10 @@
       'noop)
     (timer:sleep (timer:seconds 1))
     (watch files f modified-times)))
+```
 
-
-;;;===================================================================
-;;; Internal functions
-;;;===================================================================
-
+### Internal Functions
+```{.lfe name="internal functions"}
 (defun file-name (base-dir filename)
   "Given a `base-dir`ectory and a `filename`, return an absolute path.
 The result will be formatted in a way that is accepted by the command shell and
@@ -301,20 +298,18 @@ The resulting strings do not contain newlines."
   (string:join strings "\n"))
 
 (defun unescape (code)
-  "Given the contents of a code block, replace any `\"\<<\"` with `\"<<\"`."
-  (re:replace code "\\\\<<" "<<" '[global #(return list)]))
+  "Given the contents of a code block, replace any `\"\\<<\"` with `\"\<<\"`."
+  (re:replace code "\\\\\<<" "\<<" '[global #(return list)]))
 
 (defun unescape-sections (sections)
   "Given a list of sections, call [[unescape/1]] on each code block."
   (lists:map
     (match-lambda ([`#(,name ,code)] `#(,name ,(unescape code))))
     sections))
+```
 
-
-;;;===================================================================
-;;; Main entry point
-;;;===================================================================
-
+### Main Entry Point
+```{.lfe name="main entry point"}
 (defun main
   (['()] (usage))
   ([`("watch" . ,files)]
@@ -336,5 +331,125 @@ The resulting strings do not contain newlines."
    (if (lists:any (lambda (x) (lists:member x '["help" "-h" "-help" "--help"])) args)
      (usage)
      (process-files args))))
+```
+
+```{.lfe name="main entry point"}
 
 (main script-args)
+```
+
+### Tangling it All Together
+```{.lfe name="file:llfe.lfe"}
+<<shebang>>
+
+<<include libs>>
+
+<<usage>>
+
+
+;;;===================================================================
+;;; Printing
+;;;===================================================================
+
+<<printing>>
+
+
+;;;===================================================================
+;;; Code blocks
+;;;===================================================================
+
+<<code blocks>>
+
+
+;;;===================================================================
+;;; noweb-style replacement
+;;;===================================================================
+
+<<noweb-style replacement>>
+
+
+;;;===================================================================
+;;; Sections
+;;;===================================================================
+
+<<sections>>
+
+
+;;;===================================================================
+;;; Inspecting files
+;;;===================================================================
+
+<<inspecting files>>
+
+
+;;;===================================================================
+;;; Reading files
+;;;===================================================================
+
+<<reading files>>
+
+
+;;;===================================================================
+;;; Processing files
+;;;===================================================================
+
+<<processing files>>
+
+
+;;;===================================================================
+;;; Writing files
+;;;===================================================================
+
+<<writing files>>
+
+
+;;;===================================================================
+;;; Watching files
+;;;===================================================================
+
+<<watching files>>
+
+
+;;;===================================================================
+;;; Internal functions
+;;;===================================================================
+
+<<internal functions>>
+
+
+;;;===================================================================
+;;; Main entry point
+;;;===================================================================
+
+<<main entry point>>
+
+```
+
+## License
+[MIT]
+
+```{name="file:LICENSE"}
+The MIT License (MIT)
+Copyright © 2015 Eric Bailey <eric@ericb.me>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the “Software”), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+```
+
+[MIT]: http://yurrriq.mit-license.org/2015
