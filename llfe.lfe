@@ -276,6 +276,10 @@
 ;;; Internal functions
 ;;;===================================================================
 
+(defun help? (x)
+  "Return `true` iff `x` is one of \"help\", \"-h\", \"-help\" or \"\"--help\"."
+  (lists:member x '["help" "-h" "-help" "--help"]))
+
 (defun file-name (base-dir filename)
   "Given a `base-dir`ectory and a `filename`, return an absolute path.
 The result will be formatted in a way that is accepted by the command shell and
@@ -333,7 +337,7 @@ The resulting strings do not contain newlines."
        (apply (MODULE) f `[,file])
        (usage))))
   ([args]
-   (if (lists:any (lambda (x) (lists:member x '["help" "-h" "-help" "--help"])) args)
+   (if (lists:any #'help?/1 args)
      (usage)
      (process-files args))))
 
