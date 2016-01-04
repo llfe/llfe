@@ -1,5 +1,5 @@
 {application,    llfe,
- [{description,  "Literate programming support for LFE."},
+ [{description,  "Literate Lisp Flavoured Erlang."},
   {vsn,          "0.0.1"},
   {registered,   []},
   {applications, [kernel, stdlib]},
