@@ -1,15 +1,3 @@
-# LLFE
-[Literate programming] support for [LFE], inspired by [@mqsoh]'s [knot].
-
-[Literate programming]: https://en.wikipedia.org/wiki/Literate_programming
-[LFE]: https://github.com/rvirding/lfe
-[@mqsoh]: https://github.com/mqsoh
-[knot]: https://github.com/mqsoh/knot
-
-## License
-[The Unlicense]
-
-```{name="file:UNLICENSE"}
 This is free and unencumbered software released into the public domain.
 
 Anyone is free to copy, modify, publish, use, compile, sell, or
@@ -34,6 +22,3 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
 For more information, please refer to <http://unlicense.org/>
-```
-
-[The Unlicense]: http://unlicense.org
