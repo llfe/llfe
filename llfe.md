@@ -60,8 +60,34 @@ include the threading macros in [`clj/include/compose.lfe`].
 [`clj/include/compose.lfe`]: https://github.com/lfex/clj/blob/master/include/compose.lfe
 
 ### Usage
-When the CLI is given invalid arguments or something `help`-like, print usage
+When the [CLI] is given invalid arguments or something `help`-like, print usage
 tips to the console.
+
+```{.text name="usage output"}
+LLFE: Literate Lisp Flavoured Erlang
+
+Usage: llfe [file]...
+       llfe watch [file]...
+
+Syntax: Literate LFE files are written in Markdown.
+        For information about the syntax, please refer to:
+        https://github.com/quasiquoting/llfe.
+
+'llfe watch' takes a list of files. When a change is detected
+on any of the files, llfe will automatically re-tangle them.
+
+There are some debugging functions pertaining to the way the
+parser handles documents. Their usage is as follows:
+
+    llfe print-code [file]
+    llfe print-concatenated-code [file]
+    llfe print-expanded-code [file]
+    llfe print-unescaped-code [file]
+    llfe print-file-sections [file]
+
+For more information, it's probably best to read the literate
+source of LLFE itself.
+```
 
 ```{.lfe name="usage"}
 (defun usage ()
@@ -91,6 +117,9 @@ tips to the console.
   (io:fwrite "source of LLFE itself.\n")
   'ok)
 ```
+
+[CLI]: ./llfe
+
 
 ### Printing
 ```{.lfe name="printing"}
@@ -501,10 +530,11 @@ Unescaping `<<`.
      (process-files args))))
 ```
 
-[Just do it!]
+In LFE scripts, `script-args` is bound to the list of command line arguments.
+Now that the script defined, run it by calling `main/1` with `script-args`.
+In other words, "[Just do it!]"
 
-```{.lfe name="main entry point"}
-
+```{.lfe name="just do it"}
 (main script-args)
 ```
 
@@ -587,6 +617,8 @@ Unescaping `<<`.
 ;;;===================================================================
 
 <<main entry point>>
+
+<<just do it>>
 
 ```
 
