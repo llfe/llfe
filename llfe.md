@@ -321,7 +321,7 @@ Call [`modified-time/1`] and return a tuple of the form,
 ```{.lfe name="modified-times"}
 (defun modified-times (files)
   "Call [[modified-time/1]] on each file in a given list of `files`.
-For each file, return a tuple of the form `` `#(,file ,modified-time) ``.
+For each file, return a tuple of the form `` `#(,file ,modified-time) ``."
   (lists:map (lambda (file) `#(,file ,(modified-time file))) files))
 ```
 
