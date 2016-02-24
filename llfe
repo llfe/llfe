@@ -12,30 +12,29 @@
 
 (defun usage ()
   "Print usage tips to the console."
-  (io:fwrite "LLFE: Literate Lisp Flavoured Erlang\n")
-  (io:fwrite "\n")
-  (io:fwrite "Usage: llfe [file]...\n")
-  (io:fwrite "       llfe watch [file]...\n")
-  (io:fwrite "\n")
-  (io:fwrite "Syntax: Literate LFE files are written in Markdown.\n")
-  (io:fwrite "        For information about the syntax, please refer to:\n")
-  (io:fwrite "        https://github.com/quasiquoting/llfe.\n")
-  (io:fwrite "\n")
-  (io:fwrite "'llfe watch' takes a list of files. When a change is detected\n")
-  (io:fwrite "on any of the files, llfe will automatically re-tangle them.\n")
-  (io:fwrite "\n")
-  (io:fwrite "There are some debugging functions pertaining to the way the\n")
-  (io:fwrite "parser handles documents. Their usage is as follows:\n")
-  (io:fwrite "\n")
-  (io:fwrite "    llfe print-code [file]\n")
-  (io:fwrite "    llfe print-concatenated-code [file]\n")
-  (io:fwrite "    llfe print-expanded-code [file]\n")
-  (io:fwrite "    llfe print-unescaped-code [file]\n")
-  (io:fwrite "    llfe print-file-sections [file]\n")
-  (io:fwrite "\n")
-  (io:fwrite "For more information, it's probably best to read the literate\n")
-  (io:fwrite "source of LLFE itself.\n")
-  'ok)
+  (io:fwrite (++ "LLFE: Literate Lisp Flavoured Erlang\n"
+                 "\n"
+                 "Usage: llfe [file]...\n"
+                 "       llfe watch [file]...\n"
+                 "\n"
+                 "Syntax: Literate LFE files are written in Markdown.\n"
+                 "        For information about the syntax, please refer to:\n"
+                 "        https://github.com/quasiquoting/llfe.\n"
+                 "\n"
+                 "'llfe watch' takes a list of files. When a change is detected\n"
+                 "on any of the files, llfe will automatically re-tangle them.\n"
+                 "\n"
+                 "There are some debugging functions pertaining to the way the\n"
+                 "parser handles documents. Their usage is as follows:\n"
+                 "\n"
+                 "    llfe print-code [file]\n"
+                 "    llfe print-concatenated-code [file]\n"
+                 "    llfe print-expanded-code [file]\n"
+                 "    llfe print-unescaped-code [file]\n"
+                 "    llfe print-file-sections [file]\n"
+                 "\n"
+                 "For more information, it's probably best to read the literate\n"
+                 "source of LLFE itself.\n")))
 
 
 ;;;===================================================================
