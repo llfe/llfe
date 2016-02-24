@@ -208,7 +208,7 @@ code blocks, but also call `unescape/1` on the body of each one.
 ```{.lfe name="print-unescaped-code"}
 (defun print-unescaped-code (filename)
   "Given a literate LFE `filename`, print and label each code block therein,
-concatenating continuations, expanding references and unescaping `\<<`.
+concatenating continuations, expanding references and unescaping `\<<`."
   (-> (all-code (read-file filename))
       (concat-sections)
       (expand-all-sections)
@@ -225,7 +225,7 @@ blocks that are to be tangled to files.
 (defun print-file-sections (filename)
   "Given a literate LFE `filename`, print and label each code block therein
 whose name has the prefix, `file:`, concatenating continuations,
-expanding references and unescaping `\<<`.
+expanding references and unescaping `\<<`."
   (-> (all-code (read-file filename))
       (concat-sections)
       (expand-all-sections)
