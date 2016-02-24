@@ -198,6 +198,9 @@ concatenating any continuations and expanding any references."
   (-> (all-code (read-file filename))
       (concat-sections)
       (expand-all-sections)
+      (expand-all-sections)
+      (expand-all-sections)
+      (expand-all-sections)
       (print-sections)))
 ```
 
