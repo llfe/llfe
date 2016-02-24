@@ -66,7 +66,18 @@ include the threading macros in [`clj/include/compose.lfe`].
 
 ```{.lfe name="include libs"}
 
-(include-lib "clj/include/compose.lfe")
+;; (include-lib "clj/include/compose.lfe")
+(defmacro ->
+  ([x]               x)
+  ([x `(,f . ,body)] `(,f ,x ,@body))
+  ([x sexp]          `(list ,sexp ,x))
+  ([x sexp . sexps]  `(-> (-> ,x ,sexp) ,@sexps)))
+
+(defmacro ->>
+  ([x]               x)
+  ([x `(,f . ,body)] `(,f ,@body ,x))
+  ([x sexp]          `(list ,sexp ,x))
+  ([x sexp . sexps]  `(->> (->> ,x ,sexp) ,@sexps)))
 ```
 
 [`clj/include/compose.lfe`]: https://github.com/lfex/clj/blob/master/include/compose.lfe
