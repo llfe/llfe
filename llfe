@@ -30,7 +30,7 @@
                  "\n"
                  "Syntax: Literate LFE files are written in Markdown.\n"
                  "        For information about the syntax, please refer to:\n"
-                 "        https://github.com/quasiquoting/llfe.\n"
+                 "        https://github.com/llfe/llfe.\n"
                  "\n"
                  "'llfe watch' takes a list of files. When a change is detected\n"
                  "on any of the files, llfe will automatically re-tangle them.\n"

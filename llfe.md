@@ -11,7 +11,7 @@ to your `config.fish`:
 
 ```{.fish name="llfe fish function"}
 function llfe -d "Literate Lisp Flavoured Erlang"
-  eval $HOME/src/quasiquoting/llfe/llfe $argv
+  eval $HOME/src/llfe/llfe/llfe $argv
 end
 ```
 
@@ -94,7 +94,7 @@ Usage: llfe [file]...
 
 Syntax: Literate LFE files are written in Markdown.
         For information about the syntax, please refer to:
-        https://github.com/quasiquoting/llfe.
+        https://github.com/llfe/llfe.
 
 'llfe watch' takes a list of files. When a change is detected
 on any of the files, llfe will automatically re-tangle them.
@@ -122,7 +122,7 @@ source of LLFE itself.
                  "\n"
                  "Syntax: Literate LFE files are written in Markdown.\n"
                  "        For information about the syntax, please refer to:\n"
-                 "        https://github.com/quasiquoting/llfe.\n"
+                 "        https://github.com/llfe/llfe.\n"
                  "\n"
                  "'llfe watch' takes a list of files. When a change is detected\n"
                  "on any of the files, llfe will automatically re-tangle them.\n"
