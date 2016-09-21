@@ -62,25 +62,14 @@ In order for [`modified-time/1`] to work, include [`kernel/include/file.hrl`].
 
 
 To make deeply nested s-expressions more manageable and easier to read,
-include the threading macros in [`clj/include/compose.lfe`].
+include the threading macros in [`lfe/include/clj.lfe`].
 
 ```{.lfe name="include libs"}
 
-;; (include-lib "clj/include/compose.lfe")
-(defmacro ->
-  ([x]               x)
-  ([x `(,f . ,body)] `(,f ,x ,@body))
-  ([x sexp]          `(list ,sexp ,x))
-  ([x sexp . sexps]  `(-> (-> ,x ,sexp) ,@sexps)))
-
-(defmacro ->>
-  ([x]               x)
-  ([x `(,f . ,body)] `(,f ,@body ,x))
-  ([x sexp]          `(list ,sexp ,x))
-  ([x sexp . sexps]  `(->> (->> ,x ,sexp) ,@sexps)))
+(include-lib "lfe/include/clj.lfe")
 ```
 
-[`clj/include/compose.lfe`]: https://github.com/lfex/clj/blob/master/include/compose.lfe
+[`lfe/include/clj.lfe`]: https://github.com/rvirding/lfe/blob/develop/include/clj.lfe
 
 ### Usage
 When the [CLI] is given invalid arguments or something `help`-like, print usage

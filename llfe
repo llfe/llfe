@@ -8,18 +8,7 @@
 
 (include-lib "kernel/include/file.hrl")
 
-;; (include-lib "clj/include/compose.lfe")
-(defmacro ->
-  ([x]               x)
-  ([x `(,f . ,body)] `(,f ,x ,@body))
-  ([x sexp]          `(list ,sexp ,x))
-  ([x sexp . sexps]  `(-> (-> ,x ,sexp) ,@sexps)))
-
-(defmacro ->>
-  ([x]               x)
-  ([x `(,f . ,body)] `(,f ,@body ,x))
-  ([x sexp]          `(list ,sexp ,x))
-  ([x sexp . sexps]  `(->> (->> ,x ,sexp) ,@sexps)))
+(include-lib "lfe/include/clj.lfe")
 
 (defun usage ()
   "Print usage tips to the console."
